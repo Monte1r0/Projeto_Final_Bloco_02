@@ -16,8 +16,8 @@ export class Produto{
     @Column({length: 100, nullable: false}) // Definir o tamanho e não aceitar vlor maior que 100
     nome: string;
 
-
-    @Column() // A data e hora sera definida automaticamente 
+    @IsNotEmpty()
+    @Column({nullable: false})
     vencimento: Date;
 
     @Column({length: 255, nullable: false}) // Definir o tamanho e não aceitar vlor maior que 100
@@ -34,4 +34,8 @@ export class Produto{
     })
     categoria: Categoria
 
+}
+
+function ApiProperty(): (target: Produto, propertyKey: "vencimento") => void {
+    throw new Error("Function not implemented.");
 }
