@@ -3,6 +3,7 @@ import { Transform, TransformFnParams } from "class-transformer";
 import { IsNotEmpty, IsNumber } from "class-validator";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Categoria } from "../../categoria/entities/categoria.entity";
+import { Usuario } from "../../usuario/entities/ususario.entity";
 
 
 @Entity({name: "tb_produtos"})
@@ -34,8 +35,12 @@ export class Produto{
     })
     categoria: Categoria
 
+    @ManyToOne(() => Usuario, (usuario) => usuario.produto, {
+        onDelete: "CASCADE"
+    })
+    usuario: Usuario
+
 }
 
-function ApiProperty(): (target: Produto, propertyKey: "vencimento") => void {
-    throw new Error("Function not implemented.");
-}
+
+

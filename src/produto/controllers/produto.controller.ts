@@ -1,37 +1,43 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseFloatPipe, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseFloatPipe, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { ProdutoService } from "../services/produto.service";
 import { Produto } from "../entities/produto.entity";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
-
+@UseGuards(JwtAuthGuard)
 @Controller("/produtos")
 export class ProdutoController{
 
     constructor(private readonly produtoService: ProdutoService){}
 
+    
     @Get()
     @HttpCode(HttpStatus.OK) //Http Status 200
     findALL(): Promise<Produto[]>{
         return this.produtoService.findALL();
     }
 
+    
     @Get('/:id')
     @HttpCode(HttpStatus.OK) //Http Status 200
     findById(@Param('id', ParseIntPipe)id:number): Promise<Produto>{
         return this.produtoService.findById(id);
     } 
 
+    
     @Get('/PrecoMaior/:preco')
     @HttpCode(HttpStatus.OK) //Http Status 200
     findByPrecoMaior(@Param('preco', ParseFloatPipe)preco:number): Promise<Produto[]>{
         return this.produtoService.findByPrecoMaior(preco);
     } 
 
+    
     @Get('/PrecoMenor/:preco')
     @HttpCode(HttpStatus.OK) //Http Status 200
     findByPrecoMenor(@Param('preco', ParseFloatPipe)preco:number): Promise<Produto[]>{
         return this.produtoService.findByPrecoMenor(preco);
     } 
 
+    
     @Get('/nome/:nome')
     @HttpCode(HttpStatus.OK) //Http Status 200
     findByNome(@Param('nome', )nome:string): Promise<Produto[]>{
